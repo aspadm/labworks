@@ -10,10 +10,10 @@ try:
     x0, h, xm = map(float,input('Введите х0, прирост, максимум: ').split())
     s1 = s2 = 0
     min2 = 5*x0**3 + 2*x0*x0 - 15*x0 - 6
-    max2 = 0
+    max2 = float(0)
         
     x = x0-h
-    print('\nt       \tp1         \tp2\t')
+    print('\nt          \tp1          \tp2\t')
     while x<xm:
         x+=h
         y1 = x - cos(pi*x)
@@ -23,27 +23,39 @@ try:
         if y1<0: s1+=y1
         if y2<0: s2+=y2
         
-        print('{:0.4f}  \t{:0.8f}  \t{:0.8f}'.format(x,y1,y2))
+        print('{:-0.4g}\t\t{:<10.8g}\t{:<10.8g}'.format(x,y1,y2))
 
     print()
 
-    print('Сумма отрицательных р1 = {:0.8f}, р2 = {:0.8f}\n'.format(s1,s2))
-    print(min2,max2)
+    print('Сумма отрицательных р1 = {:0.8g}, р2 = {:0.8f}\n'.format(s1,s2))
+    print('Минимум и максимум функции: {:0.8g} и {:0.8g}\n'.format(min2,max2))
 
-    print('{:7.4} '.format(min2),'-'*61,'>',' {:7.4}'.format(max2),sep="")
+    pos = -1
+    if min2 <= 0 <= max2:
+        pos = round((- min2)/(max2 - min2)*56)
+        #print(pos)
+
+    print('{:>10.4g} '.format(min2)," "*55,' {:<10.4g}'.format(max2),sep='')
+    print(" "*11,end='')
+    for i in range(56):
+        if i==pos:
+            print('+',end='')
+        else:
+            print('-',end='')
+    print('>')
+    
 
     x = x0-h
     while x<xm:
         x+=h
         y2 = 5*x**3 + 2*x*x - 15*x - 6
-        y2 = round((y2 - min2)/(max2 - min2)*61)
-        #print(y2)
-        print('{:0.4f} '.format(x),end='')
-        for i in range(62):
+        y2 = round((y2 - min2)/(max2 - min2)*56)
+        print('{:>10.4g} '.format(x),end='')
+        for i in range(57):
             if y2==i: print('*',end='')
+            elif pos==i: print('|',end='')
             else: print(' ',end='')
         print()
-    #if max2*min2 <=0
-    
+
 except ValueError:
     print('Ошибка типов!')
