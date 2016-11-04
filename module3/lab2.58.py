@@ -5,23 +5,11 @@ try:
     a = f = 0
     up = True
     M = int(input('Задайте размер последовательности(М): '))
-
+    print('Введите M членов последовательности, разделяя пробелом:')
     s = input()
-    #s = s + ' '
     k = ''
     
-    """for i in range(len(s)):
-        if s[i] != ' ':
-            k += s[i]
-            print(k)
-        else:
-            b = a
-            a = int(k)
-            k = ''
-            if a<b and f>0:
-                up = False
-                break
-            f += 1"""
+    
     for k in s.split():
         b = a
         a = int(k)
