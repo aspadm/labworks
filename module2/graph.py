@@ -9,8 +9,7 @@ from math import cos, pi
 try:
     x0, h, xm = map(float,input('Введите х0, прирост, максимум: ').split())
     s1 = s2 = 0
-    min2 = 5*x0**3 + 2*x0*x0 - 15*x0 - 6
-    max2 = float(0)
+    min2 = max2 = 5*x0**3 + 2*x0*x0 - 15*x0 - 6
         
     x = x0-h
     print('\nt          \tp1          \tp2\t')
