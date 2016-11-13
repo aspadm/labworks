@@ -58,8 +58,8 @@ y1 = int((y1-yt+1.9*sh)//sh)
 for yt in range(y1):
     y = yt*sh+y0
     #Вывод значений переменной:
-    if True:# (y - y0)%2 == 1:
-        print('{:>7.5g}  '.format(y),end='')
+    if yt%2 == 1:
+        print('{:>7.5g}  '.format(y+1),end='')
     else:
         print(' '*9,end='')
     #Вывод графика:
@@ -74,14 +74,3 @@ for yt in range(y1):
         else:
             print(' ',end='')
     print()
-
-
-
-
-
-    
-
-
-
-
-
