@@ -12,7 +12,7 @@ try:
     n = N-1
     
     print('Введите',N,'строк с',N,'элементами, разделяя их пробелами:')
-    F = [[0]*N]*N
+    F = []*N
     for i in range(N):
         F[i]=list(map(int,input().split()))
 
