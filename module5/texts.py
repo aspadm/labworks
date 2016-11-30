@@ -7,7 +7,7 @@
 # Выравнивать строки по ширине (число пробелов между словами строки отличается
 # на 1 или меньше).
 # Добавить замену одного слова другим во всём тексте; удалить из первых трёх
-# трок заданное слово.
+# строк заданное слово.
 
 # Версия с использованием ЛЮБЫХ возможностей языка
 
@@ -18,7 +18,7 @@ text = [['Данный', 'текст', 'является', 'тестовой', '
         ['да', 'выпей', 'чаю', 'с', 'лимоном'],
         ['ещё', 'одна', 'строка', 'текста'],
         ['и','ещё','-','мало','ли','кому-то', 'это', 'интересно', 'читать'],
-        ['держите', 'ещё', 'одну','2+2']]
+        ['держите', 'ещё', 'одну','-2+2']]
 
 def summ(s):
     k = list()
@@ -30,6 +30,9 @@ def calc(s):
     if '+' in s or '-' in s:
         digits = ''
         expr = [1]
+        if s[0] == '-':
+            s = s[1:]
+            expr[0] = -1
 
         for i in range(len(s)):
             if s[i] == '+' or s[i] == '-':
@@ -62,37 +65,56 @@ def printm(s,lab=''):
         for j in range(len(s[i])):
             print(s[i][j],end=' ')
         print()
+    print()
 
-def printh(s,n=0):
-    p = list()
-    z = list()
+def printv(s,lab=''):
+    print(lab)
     for i in range(len(s)):
+        print(s[i])
+    print()
+        
+def printh(s,n=0):
+    p = list()    # Длина строки
+    z = list()    # Новые пробелы
+    for i in range(len(s)):    # Находим длины строк
         p.append(len(summ(s[i])))
     k = max(p)
-    if n < k+len(s[p.index(k)])-2:
-        n = k+len(s[p.index(k)])-2
+    if n < k+len(s[p.index(k)])-1:    # Задаём ширину вывода
+        n = k+len(s[p.index(k)])-1
     for i in range(len(s)):
-        a = n - p[i]
-        b = len(s[i])
-        z.append([' '*(a//b)]*len(s[i]))
-    #for 
+        a = n - p[i]    # Находим число пробелов
+        b = len(s[i])    # Число слов
+        if b > 1:
+            z.append([' '*(a//(b-1))]*(b-1))    # Забиваем минимальным числом пробелов
+            z[i].append('')
+            for j in range(a - a//(b-1)*(b-1)):
+                z[i][j%(b-2)] += ' '    # Дополняем текст по ширине
+        else:
+            z.append([' '*a])
+            
     for i in range(len(s)):
-        if i>0: print()
         for j in range(len(s[i])):
-            print(s[i][j]+z[i][j],end='')
-    return 0
+            if len(s[i]) == 1:
+                print(z[i][j]+s[i][j],end='')
+            else:
+                print(s[i][j]+z[i][j],end='')
+        print()
+    print()
 
 # Ввод текста
-"""
+
 print('Введите текст построчно; пустая строка прервёт ввод')
 text = list()
 while True:
     s = list(input().split())
-    if len(s) >0:
+    if len(s) > 0:
         text.append(s)
     else:
         break
-"""
+
+printm(text,'Заданный текст:')
+print('\nС выравниванием по ширине:')
+printh(text,0)
 
 wcount = lenm(text)    # Количество слов в тексте
 
@@ -101,8 +123,6 @@ lwords = [0]*len(text)
 lwc3es = 0
 lwc3es = lenm(text,len(text)-3)    # Количество слов в последних 3х строках
 
-printm(text)
-printh(text,50)
 for i in range(len(text)):
     for j in range(len(text[i])):
         if len(text[i][j]) > len(text[i][lwords[i]]):
@@ -111,7 +131,6 @@ for i in range(len(text)):
 
 for i in range(len(text)):
     lwords[i] = text[i][lwords[i]]
-print()
 
 texta = summ(text)
 cword = 0
@@ -122,7 +141,36 @@ for i in range(wcount):
         
 cword = texta[cword]
 
-print(lwords)
-print(wcount)
-print(lwc3es)
-print(cword)
+printv(lwords,'Самые длинные слова по строкам:')
+
+for i in range(len(text)):
+    for j in range(len(text[i])):
+        text[i][j] = calc(text[i][j])
+
+print('Всего слов:',wcount)
+print('Слов в последних 3х строках:',lwc3es)
+print('Наиболее частое слово:',cword)
+
+print('\nС выполненной заменой выражений:')
+printh(text)
+
+zam = list()
+zam.append(input('Заменить слово '))
+zam.append(input('словом '))
+
+for i in range(len(text)):
+    for j in range(len(text[i])):
+        if text[i][j] == zam[0]:
+            text[i][j] = zam[1]
+
+print('\nС выполненной заменой:')
+printh(text)
+
+ud = input('Удалить из первых 3х строк слово ')
+
+for i in range(3):
+    while ud in text[i]:
+        text[i].remove(ud)
+        
+print('\nИтоговый текст:')   
+printh(text)
