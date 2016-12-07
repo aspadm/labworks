@@ -1,7 +1,7 @@
 # Кириллов Алексей, ИУ7-12
 # Вариант №24
 # Текст задан массивом строк; найти: самое длинное слово в каждой строке,
-# количество слов во всём тексте/в последних двух предложениях,
+# количество слов во всём тексте/в последних двух строках,
 # наиболее часто встречающееся слово.
 # Заменить арифметическое действие (+,-) на результат.
 # Выравнивать строки по ширине (число пробелов между словами строки отличается
@@ -9,18 +9,41 @@
 # Добавить замену одного слова другим во всём тексте; удалить из первых трёх
 # строк заданное слово.
 
-# Версия с использованием ЛЮБЫХ возможностей языка
+# Версия БЕЗ использования возможностей языка
 
-text =  '''Данный текст WWW является тестовой заглушкой
-        и  не  несёт  никакого  смысла WWW.  15-7+16+386-199
-        Здесь абсолютно точно отсутствует что-то полезное
-        Лучше  съешь  ещё  этих  французских  булок
-        да  выпей  чаю  с  лимоном. WWW  да,
-        ещё  одна  строка  текста
-        держите  ещё  одну  -2+2+5'''
+text =  """Сегодня +15 градусов
+            тепла
+            и это -
+            ложь.
+            Вот.
+            Так вот."""
+
+def splitl(s):
+    k = []
+    z = ''
+    for i in range(len(s)):
+        if s[i]!='\n':
+            z += s[i]
+        else:
+            k.append(z)
+            z = ''
+    k.append(z)
+    return k
+
+def splits(s):
+    k = []
+    z = ''
+    for i in range(len(s)):
+        if s[i]!=' ':
+            z += s[i]
+        elif len(z):
+            k.append(z)
+            z = ''
+    k.append(z)
+    return k
 
 def dz(s):
-    if s[len(s)-1]==',' or s[len(s)-1]=='.':
+    if s[-1]==',' or s[-1]=='.':
         s = s[:-1]
     return s
 
@@ -31,13 +54,16 @@ def summ(s):
     return k
 
 def calc(s):
+    if len(s) <= 1: # Если дефис/пустая строка
+        return s
+    
     if '+' in s or '-' in s:
         digits = ''
         expr = [1]
         if s[0] == '-':
             s = s[1:]
             expr[0] = -1
-
+            
         for i in range(len(s)):
             if s[i] == '+' or s[i] == '-':
                 digits += ' '
@@ -53,6 +79,7 @@ def calc(s):
             for i in range(len(digits)):
                 x += digits[i]*expr[i]
             s = str(x)
+
     return s
 
 def lenm(s,a = 0,b = 0):
@@ -128,9 +155,9 @@ if input('Вводить текст заново? (д/н)<н>: ') == 'д':
         else:
             break
 else:
-    text = list(text.splitlines())
+    text = splitl(text)
     for i in range(len(text)):
-       text[i] = list(text[i].split()) 
+       text[i] = splits(text[i]) 
 
 printm(text,'Заданный текст:')
 print('С выравниванием по ширине:')
@@ -150,7 +177,6 @@ for i in range(len(text)):
     for j in range(len(text[i])):
         if len(dz(text[i][j])) > len(dz(text[i][lwords[i]])):
             lwords[i] = j
-        #text[i][j] = calc(text[i][j])
 
 for i in range(len(text)):
     lwords[i] = text[i][lwords[i]]
@@ -183,9 +209,8 @@ zam.append(input('словом '))
 
 for i in range(len(text)):
     for j in range(len(text[i])):
-        if dz(text[i][j]) == zam[0]:
-            if text[i][j][len(text[i][j])-1]==',' or\
-            text[i][j][len(text[i][j])-1]=='.':
+        if (dz(text[i][j])) == (zam[0]):
+            if text[i][j][-1]==',' or text[i][j][-1]=='.':
                 text[i][j] = zam[1]+text[i][j][-1]
             else:
                 text[i][j] = zam[1]
