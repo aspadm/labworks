@@ -29,7 +29,7 @@ def fss(x):
 print('Вывод первой строки занял {:4.2g}s\n'.format(perfc()))
 
 print('Уточнение корней методом brenth, функция y=sin(x)\n')
-a, b = map(int,input('Задайте границы интервала: ').split())
+a, b = map(float, input('Задайте границы интервала: ').split())
 eps_x = float(input('Укажите требуемую точность по X (>=0): '))
 n = int(input('Введите число разбиений (0, если нужен шаг): '))
 if n:
@@ -106,8 +106,6 @@ if len(x_points_fs) > 0:
     y_points_fs = [f(i) for i in x_points_fs]
     plt.plot(x_points_fs, y_points_fs, marker='o', ls='',\
              label='extreme points', color='g')
-    # Точки максимума и минимума
-    
 
 if len(x_points_fss) > 0:
     # Точки перегиба
