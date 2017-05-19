@@ -55,7 +55,7 @@ for pt in point:
 max_x += r
 max_y += r
 min_x -= r
-max_y -= r
+min_y -= r
 
 screen_scale = min(460/(max_y - min_y), 620/(max_x - min_x))
 offset_x = 10 + round((620 - (max_x - min_x)*screen_scale)/2)
